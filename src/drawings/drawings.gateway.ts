@@ -1,3 +1,5 @@
+// src/drawings/drawings.gateway.ts
+
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -6,25 +8,40 @@ import {
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { DrawingsService } from './drawings.service';
+import { CreateDrawingDto } from './dto/create-drawing.dto';
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*', // Be sure to restrict this in production!
+  },
+})
 export class DrawingsGateway {
-  @WebSocketServer() server: Server;
+  @WebSocketServer()
+  server: Server;
+
+  constructor(private readonly drawingsService: DrawingsService) {}
 
   @SubscribeMessage('draw')
-  handleDrawEvent(
-    @MessageBody() data: any,
+  async handleDrawEvent(
+    @MessageBody() createDrawingDto: CreateDrawingDto,
     @ConnectedSocket() client: Socket,
-  ): void {
-    // Broadcast the drawing data to all clients except the sender
-    client.broadcast.to(data.boardId).emit('draw', data);
+  ): Promise<void> {
+    const drawing = await this.drawingsService.create(createDrawingDto);
+    client.emit('drawingAcknowledged', { success: true, drawing });
+    client.broadcast.to(createDrawingDto.board).emit('drawing', drawing);
   }
 
   @SubscribeMessage('joinBoard')
-  handleJoinBoard(
-    @MessageBody() data: any,
+  async handleJoinBoardEvent(
+    @MessageBody() message: any, // Using 'any' for demonstration; you should use a proper DTO
     @ConnectedSocket() client: Socket,
-  ): void {
-    client.join(data.boardId);
+  ): Promise<void> {
+    const boardId = message.data;
+    const drawings = await this.drawingsService.findByBoard(boardId);
+    client.join(boardId);
+    client.emit('previousDrawings', drawings);
   }
+
+  // Additional WebSocket event handlers...
 }

@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Param, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Get,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './interfaces/board.interface';
@@ -13,11 +21,16 @@ export class BoardsController {
   }
 
   @Post(':boardId/join')
+  @HttpCode(HttpStatus.OK) // You can set the status code explicitly if needed
   async join(
     @Param('boardId') boardId: string,
     @Body('nickname') userNickname: string,
-  ): Promise<Board> {
-    return this.boardsService.join(boardId, userNickname);
+  ): Promise<{ message: string; board: Board }> {
+    const board = await this.boardsService.join(boardId, userNickname);
+    return {
+      message: `User ${userNickname} has successfully joined the board.`,
+      board,
+    };
   }
 
   @Get()
