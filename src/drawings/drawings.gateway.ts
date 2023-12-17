@@ -29,6 +29,7 @@ export class DrawingsGateway {
   ): Promise<void> {
     const drawing = await this.drawingsService.create(createDrawingDto);
     client.emit('drawingAcknowledged', { success: true, drawing });
+    console.log('drawing: ', drawing);
     client.broadcast.to(createDrawingDto.board).emit('drawing', drawing);
   }
 
