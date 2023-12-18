@@ -16,9 +16,6 @@ export class BoardsService {
   }
 
   async join(boardId: string, userNickname: string): Promise<Board> {
-    // Here you would add the logic to add a user to the board.
-    // For example, you might push the user's nickname to an array of participants.
-    // This is a simplified version and assumes you have a participants field in your schema.
     return this.boardModel
       .findByIdAndUpdate(
         boardId,
@@ -31,6 +28,4 @@ export class BoardsService {
   async findAll(): Promise<Board[]> {
     return this.boardModel.find().exec();
   }
-
-  // Other service methods...
 }

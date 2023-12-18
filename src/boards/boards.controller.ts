@@ -21,7 +21,7 @@ export class BoardsController {
   }
 
   @Post(':boardId/join')
-  @HttpCode(HttpStatus.OK) // You can set the status code explicitly if needed
+  @HttpCode(HttpStatus.OK)
   async join(
     @Param('boardId') boardId: string,
     @Body('nickname') userNickname: string,

@@ -38,6 +38,7 @@ export class DrawingsGateway {
     @MessageBody() message: any, // Using 'any' for demonstration; you should use a proper DTO
     @ConnectedSocket() client: Socket,
   ): Promise<void> {
+    console.log(`Joining board: ${message.boardId}`);
     const boardId = message.data;
     const drawings = await this.drawingsService.findByBoard(boardId);
     client.join(boardId);
