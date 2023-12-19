@@ -11,9 +11,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     BoardsModule,
     UsersModule,
     DrawingsModule,
-    MongooseModule.forRoot(
-      'mongodb+srv://islomjonswe:5StGCP5iBtuM9AyP@cluster0.93yumqa.mongodb.net/?retryWrites=true&w=majority',
-    ),
+    MongooseModule.forRoot(`${process.env.DB_PASSWORD}`),
   ],
   controllers: [AppController],
   providers: [AppService],

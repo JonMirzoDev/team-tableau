@@ -1,15 +1,13 @@
-// src/drawings/interfaces/drawing.interface.ts
-
 import { Document } from 'mongoose';
 
 interface Stroke {
   color: string;
   width: number;
-  coordinates: number[][]; // Array of [x, y] pairs
+  coordinates: number[][];
 }
 
 export interface Drawing extends Document {
-  board: string; // Reference to the board ID
+  board: string;
   strokes: Stroke[];
   createdAt: Date;
 }

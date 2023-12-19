@@ -1,5 +1,3 @@
-// src/drawings/drawings.controller.ts
-
 import { Controller, Get, Param } from '@nestjs/common';
 import { DrawingsService } from './drawings.service';
 import { Drawing } from './interfaces/drawing.interface';

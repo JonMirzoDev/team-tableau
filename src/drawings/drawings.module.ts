@@ -1,5 +1,3 @@
-// src/drawings/drawings.module.ts
-
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DrawingSchema } from './drawing.schema';

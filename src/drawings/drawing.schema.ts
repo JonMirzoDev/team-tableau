@@ -1,5 +1,3 @@
-// src/drawings/drawing.schema.ts
-
 import * as mongoose from 'mongoose';
 
 export const DrawingSchema = new mongoose.Schema({

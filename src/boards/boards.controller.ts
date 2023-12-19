@@ -21,15 +21,16 @@ export class BoardsController {
   }
 
   @Post(':boardId/join')
-  @HttpCode(HttpStatus.OK) // You can set the status code explicitly if needed
+  @HttpCode(HttpStatus.OK)
   async join(
     @Param('boardId') boardId: string,
     @Body('nickname') userNickname: string,
-  ): Promise<{ message: string; board: Board }> {
+  ): Promise<{ message: string; board: Board; userNickname: string }> {
     const board = await this.boardsService.join(boardId, userNickname);
     return {
       message: `User ${userNickname} has successfully joined the board.`,
       board,
+      userNickname,
     };
   }
 
