@@ -11,17 +11,12 @@ import { Server, Socket } from 'socket.io';
 export class BoardsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
 
-  handleConnection(client: Socket) {
-    // Handle new connection
-  }
+  handleConnection(client: Socket) {}
 
-  handleDisconnect(client: Socket) {
-    // Handle disconnection
-  }
+  handleDisconnect(client: Socket) {}
 
   @SubscribeMessage('draw')
   handleDraw(client: Socket, payload: any): void {
-    // Broadcast the drawing action to all clients except the sender
     client.broadcast.emit('draw', payload);
   }
 }

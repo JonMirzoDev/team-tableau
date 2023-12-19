@@ -1,5 +1,3 @@
-// src/drawings/drawings.gateway.ts
-
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -13,7 +11,7 @@ import { CreateDrawingDto } from './dto/create-drawing.dto';
 
 @WebSocketGateway({
   cors: {
-    origin: '*', // Be sure to restrict this in production!
+    origin: '*',
   },
 })
 export class DrawingsGateway {
@@ -35,7 +33,7 @@ export class DrawingsGateway {
 
   @SubscribeMessage('joinBoard')
   async handleJoinBoardEvent(
-    @MessageBody() message: any, // Using 'any' for demonstration; you should use a proper DTO
+    @MessageBody() message: any,
     @ConnectedSocket() client: Socket,
   ): Promise<void> {
     console.log(`Joining board: ${message.boardId}`);
@@ -44,6 +42,4 @@ export class DrawingsGateway {
     client.join(boardId);
     client.emit('previousDrawings', drawings);
   }
-
-  // Additional WebSocket event handlers...
 }
